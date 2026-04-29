@@ -84,9 +84,15 @@ app.post('/api/upload', upload.single('pcapFile'), (req, res) => {
             return res.status(500).json({ error: 'Analysis failed', details: errorString });
         }
 
+        let result;
         try {
-            const result = JSON.parse(dataString);
-            
+            result = JSON.parse(dataString);
+        } catch (err) {
+            console.error("Failed to parse Python output:", err);
+            return res.status(500).json({ error: 'Failed to parse analysis results', details: dataString });
+        }
+
+        try {
             // Save to MongoDB
             const analysisRecord = new Analysis({
                 filename: req.file.originalname,
@@ -95,12 +101,12 @@ app.post('/api/upload', upload.single('pcapFile'), (req, res) => {
             });
             await analysisRecord.save();
             console.log(`[+] Analysis saved to DB`);
-
-            res.json(result);
         } catch (err) {
-            console.error("Failed to parse Python output:", err);
-            res.status(500).json({ error: 'Failed to parse analysis results', details: dataString });
+            console.error("Failed to save to MongoDB:", err);
+            // We can still return the result even if DB save fails
         }
+
+        res.json(result);
     });
 });
 
