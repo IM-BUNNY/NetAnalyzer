@@ -1,9 +1,0 @@
-weather_key,Weather_Conditions,weather_category,is_bad_weather
-1,Fine no high winds,Clear,1
-2,Raining no high winds,Precipitation,1
-3,Unknown,Other,0
-4,Snowing no high winds,Precipitation,1
-5,Fine + high winds,Clear,1
-6,Other,Other,0
-7,Fog or mist,Low Visibility,1
-8,Raining + high winds,Precipitation,1
