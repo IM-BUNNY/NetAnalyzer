@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% set active_page = 'warehouse' %}
+{% block title %}Data Warehouse — Road Accident Predictor{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>🏭 Star Schema & Data Warehouse</h1>
+  <p>ETL Pipeline output — Fact and Dimension tables stored in MongoDB</p>
+</div>
+
+<!-- Star Schema Diagram -->
+<div class="glass-card">
+  <div class="card-title">⭐ Star Schema Design</div>
+  <div class="schema-container">
+    <div class="schema-visual">
+      <!-- Top row: DIM_TIME -->
+      <div class="schema-table" style="grid-column:1;grid-row:1">
+        <div class="table-name">📅 DIM_TIME</div>
+        <div class="table-cols">
+          <div><span class="pk">time_key (PK)</span></div>
+          <div>hour</div>
+          <div>day_of_week</div>
+          <div>day_name</div>
+          <div>is_weekend</div>
+          <div>time_of_day</div>
+        </div>
+      </div>
+
+      <!-- Top row: DIM_LOCATION -->
+      <div style="grid-column:2;grid-row:1"></div>
+      <div class="schema-table" style="grid-column:3;grid-row:1">
+        <div class="table-name">📍 DIM_LOCATION</div>
+        <div class="table-cols">
+          <div><span class="pk">location_key (PK)</span></div>
+          <div>urban_or_rural</div>
+          <div>area_type</div>
+          <div>avg_latitude</div>
+          <div>avg_longitude</div>
+        </div>
+      </div>
+
+      <!-- Middle: FACT TABLE -->
+      <div class="schema-table fact">
+        <div class="table-name">📊 FACT_ACCIDENTS</div>
+        <div class="table-cols">
+          <div><span class="pk">accident_key (PK)</span></div>
+          <div><span class="fk">time_key (FK)</span></div>
+          <div><span class="fk">location_key (FK)</span></div>
+          <div><span class="fk">weather_key (FK)</span></div>
+          <div><span class="fk">road_key (FK)</span></div>
+          <div><span class="measure">severity</span></div>
+          <div><span class="measure">num_vehicles</span></div>
+          <div><span class="measure">num_casualties</span></div>
+          <div><span class="measure">speed_limit</span></div>
+        </div>
+      </div>
+
+      <!-- Bottom row: DIM_WEATHER -->
+      <div class="schema-table" style="grid-column:1;grid-row:3">
+        <div class="table-name">🌦️ DIM_WEATHER</div>
+        <div class="table-cols">
+          <div><span class="pk">weather_key (PK)</span></div>
+          <div>weather_condition</div>
+          <div>weather_category</div>
+          <div>is_bad_weather</div>
+        </div>
+      </div>
+
+      <div style="grid-column:2;grid-row:3"></div>
+
+      <!-- Bottom row: DIM_ROAD -->
+      <div class="schema-table" style="grid-column:3;grid-row:3">
+        <div class="table-name">🛣️ DIM_ROAD</div>
+        <div class="table-cols">
+          <div><span class="pk">road_key (PK)</span></div>
+          <div>road_type</div>
+          <div>road_surface</div>
+          <div>surface_category</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Table Browser -->
+<div class="glass-card">
+  <div class="card-title">🔍 Browse Warehouse Tables</div>
+  <div class="table-tabs" id="tableTabs">
+    <button class="table-tab active" data-table="dim_time">DIM_TIME</button>
+    <button class="table-tab" data-table="dim_location">DIM_LOCATION</button>
+    <button class="table-tab" data-table="dim_weather">DIM_WEATHER</button>
+    <button class="table-tab" data-table="dim_road">DIM_ROAD</button>
+    <button class="table-tab" data-table="fact_accidents">FACT_ACCIDENTS</button>
+  </div>
+  <div class="data-table-container" style="max-height:400px;overflow:auto">
+    <table class="data-table" id="warehouseTable">
+      <thead id="warehouseHead"><tr><th>Loading...</th></tr></thead>
+      <tbody id="warehouseBody"><tr><td>Loading...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ETL Pipeline -->
+<div class="glass-card">
+  <div class="card-title">🔄 ETL Pipeline</div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+    <div style="text-align:center;padding:20px 30px;background:rgba(59,130,246,0.08);border-radius:12px;border:1px solid rgba(59,130,246,0.2);min-width:180px">
+      <div style="font-size:28px;margin-bottom:8px">📥</div>
+      <div style="font-weight:600;margin-bottom:4px">EXTRACT</div>
+      <div style="font-size:12px;color:var(--text-muted)">Load raw CSV data<br>from source files</div>
+    </div>
+    <div style="display:flex;align-items:center;font-size:24px;color:var(--text-muted)">→</div>
+    <div style="text-align:center;padding:20px 30px;background:rgba(139,92,246,0.08);border-radius:12px;border:1px solid rgba(139,92,246,0.2);min-width:180px">
+      <div style="font-size:28px;margin-bottom:8px">🔄</div>
+      <div style="font-weight:600;margin-bottom:4px">TRANSFORM</div>
+      <div style="font-size:12px;color:var(--text-muted)">Clean, enrich &<br>reshape into star schema</div>
+    </div>
+    <div style="display:flex;align-items:center;font-size:24px;color:var(--text-muted)">→</div>
+    <div style="text-align:center;padding:20px 30px;background:rgba(34,197,94,0.08);border-radius:12px;border:1px solid rgba(34,197,94,0.2);min-width:180px">
+      <div style="font-size:28px;margin-bottom:8px">📤</div>
+      <div style="font-weight:600;margin-bottom:4px">LOAD</div>
+      <div style="font-size:12px;color:var(--text-muted)">Persist to MongoDB<br>data warehouse</div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const tabs = document.querySelectorAll('.table-tab');
+
+function loadTable(name) {
+  fetch(`/api/warehouse/${name}`)
+    .then(r => r.json())
+    .then(rows => {
+      if (!rows.length) {
+        document.getElementById('warehouseHead').innerHTML = '<tr><th>No data</th></tr>';
+        document.getElementById('warehouseBody').innerHTML = '<tr><td>Table is empty.</td></tr>';
+        return;
+      }
+      const cols = Object.keys(rows[0]);
+      document.getElementById('warehouseHead').innerHTML =
+        '<tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr>';
+      document.getElementById('warehouseBody').innerHTML =
+        rows.slice(0, 50).map(row =>
+          '<tr>' + cols.map(c => `<td>${row[c] ?? ''}</td>`).join('') + '</tr>'
+        ).join('');
+    });
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    loadTable(tab.dataset.table);
+  });
+});
+
+loadTable('dim_time');
+</script>
+{% endblock %}

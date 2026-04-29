@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run C++ on Mac",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/hello",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "MIMode": "lldb"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/ayush_thakur/Desktop/Codes/CPP",
+      "program": "/Users/ayush_thakur/Desktop/Codes/CPP/build/Debug/outDebug"
+    }
+  ]
+}

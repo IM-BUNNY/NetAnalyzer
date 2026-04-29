@@ -1,0 +1,49 @@
+road_key,Road_Type,Road_Surface_Conditions,surface_category
+1,One way street,Flood over 3cm deep,Poor
+2,Single carriageway,Dry,Good
+3,Roundabout,Dry,Good
+4,Single carriageway,Unknown,Poor
+5,One way street,Wet or damp,Moderate
+6,One way street,Dry,Good
+7,Dual carriageway,Dry,Good
+8,Slip road,Wet or damp,Moderate
+9,Single carriageway,Wet or damp,Moderate
+10,Single carriageway,Snow,Poor
+11,Unknown,Dry,Good
+12,Single carriageway,Flood over 3cm deep,Poor
+13,Dual carriageway,Wet or damp,Moderate
+14,Unknown,Wet or damp,Moderate
+15,Dual carriageway,Mud,Poor
+16,Roundabout,Wet or damp,Moderate
+17,Slip road,Dry,Good
+18,Single carriageway,Mud,Poor
+19,Dual carriageway,Oil or diesel,Poor
+20,One way street,Snow,Poor
+21,Roundabout,Oil or diesel,Poor
+22,Single carriageway,Oil or diesel,Poor
+23,Roundabout,Snow,Poor
+24,Unknown,Frost or ice,Poor
+25,Single carriageway,Frost or ice,Poor
+26,Dual carriageway,Snow,Poor
+27,One way street,Unknown,Poor
+28,Dual carriageway,Unknown,Poor
+29,One way street,Frost or ice,Poor
+30,Slip road,Unknown,Poor
+31,Unknown,Unknown,Poor
+32,Dual carriageway,Frost or ice,Poor
+33,Roundabout,Frost or ice,Poor
+34,Slip road,Oil or diesel,Poor
+35,One way street,Mud,Poor
+36,Slip road,Snow,Poor
+37,Unknown,Snow,Poor
+38,Unknown,Flood over 3cm deep,Poor
+39,Roundabout,Mud,Poor
+40,Roundabout,Unknown,Poor
+41,Unknown,Oil or diesel,Poor
+42,Slip road,Frost or ice,Poor
+43,Roundabout,Flood over 3cm deep,Poor
+44,Slip road,Flood over 3cm deep,Poor
+45,Dual carriageway,Flood over 3cm deep,Poor
+46,One way street,Oil or diesel,Poor
+47,Unknown,Mud,Poor
+48,Slip road,Mud,Poor
